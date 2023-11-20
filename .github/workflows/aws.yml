@@ -1,0 +1,47 @@
+name: AWS EC2 SSH and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  EC2_INSTANCE: 52.90.254.69
+  GITHUB_USER: kiloMIA
+  GITHUB_REPO: github.com/kiloMIA/Final_SRE.git
+
+jobs:
+  deploy:
+    name: SSH and Deploy
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.21.4'  
+        
+    - name: Run Tests in internal folder
+      run: go test ./internal/...
+
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: SSH into EC2 and Clone Repository
+      run: |
+        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ec2_ssh_key.pem
+        chmod 400 ec2_ssh_key.pem
+        ssh -o StrictHostKeyChecking=no -i ec2_ssh_key.pem ubuntu@${{ env.EC2_INSTANCE }} <<EOF
+          git clone https://${{ env.GITHUB_USER}}:${{ secrets.ASET_TOKEN }}@github.com/${{ env.GITHUB_REPO}}
+          git pull origin main
+          docker compose up --build -d
+        EOF
+        rm -f ec2_ssh_key.pem
+
