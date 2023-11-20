@@ -8,7 +8,7 @@ on:
 env:
   EC2_INSTANCE: 52.90.254.69
   GITHUB_USER: kiloMIA
-  GITHUB_REPO: github.com/kiloMIA/Final_SRE.git
+  GITHUB_REPO: kiloMIA/Final_SRE.git
 
 jobs:
   deploy:
