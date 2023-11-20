@@ -44,6 +44,7 @@ jobs:
         chmod 400 ec2_ssh_key.pem
         ssh -o StrictHostKeyChecking=no -i ec2_ssh_key.pem ubuntu@${{ env.EC2_INSTANCE }} <<EOF
           git clone https://${{ env.GITHUB_USER}}:${{ secrets.ASET_TOKEN }}@github.com/${{ env.GITHUB_REPO}}
+          cd Final_SRE
           git pull origin main
           docker compose up --build -d
         EOF
