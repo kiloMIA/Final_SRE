@@ -14,3 +14,12 @@ migrate-up:
 migrate-down: 
 migrate-down:
 	docker compose -f ${DOCKER_COMPOSE_FILE} --profile tools run --rm migrate down 
+
+include .env
+export
+
+plan:
+	@terraform plan
+
+apply:
+	@terraform apply
