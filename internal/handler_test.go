@@ -3,6 +3,7 @@ package internal
 import (
 	"bytes"
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -174,4 +175,9 @@ func TestTaskServiceAcceptance(t *testing.T) {
 
 	// Assert response
 	assert.Equal(t, http.StatusCreated, resp.StatusCode)
+	
+	if resp.StatusCode != http.StatusCreated {
+		bodyBytes, _ := ioutil.ReadAll(resp.Body)
+		t.Logf("Response body: %s", string(bodyBytes))
+	}
 }
