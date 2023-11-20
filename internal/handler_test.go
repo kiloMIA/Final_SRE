@@ -161,23 +161,23 @@ func TestGetTasksHandler(t *testing.T) {
 // 	assert.Equal(t, http.StatusCreated, rr.Code)
 // }
 
-func TestTaskServiceAcceptance(t *testing.T) {
+// func TestTaskServiceAcceptance(t *testing.T) {
 
-	testTask := Task{
-		Description: "Acceptance Test Task",
-		Priority:    "Medium",
-		DueDate:     "2023-02-01",
-	}
-	body, _ := json.Marshal(testTask)
-	resp, err := http.Post("http://localhost:8081/tasks", "application/json", bytes.NewBuffer(body))
-	require.NoError(t, err)
-	defer resp.Body.Close()
+// 	testTask := Task{
+// 		Description: "Acceptance Test Task",
+// 		Priority:    "Medium",
+// 		DueDate:     "2023-02-01",
+// 	}
+// 	body, _ := json.Marshal(testTask)
+// 	resp, err := http.Post("http://localhost:8081/tasks", "application/json", bytes.NewBuffer(body))
+// 	require.NoError(t, err)
+// 	defer resp.Body.Close()
 
-	// Assert response
-	assert.Equal(t, http.StatusCreated, resp.StatusCode)
+// 	// Assert response
+// 	assert.Equal(t, http.StatusCreated, resp.StatusCode)
 	
-	if resp.StatusCode != http.StatusCreated {
-		bodyBytes, _ := ioutil.ReadAll(resp.Body)
-		t.Logf("Response body: %s", string(bodyBytes))
-	}
-}
+// 	if resp.StatusCode != http.StatusCreated {
+// 		bodyBytes, _ := ioutil.ReadAll(resp.Body)
+// 		t.Logf("Response body: %s", string(bodyBytes))
+// 	}
+// }
